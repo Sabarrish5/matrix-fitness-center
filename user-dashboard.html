@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard | Matrix Gym</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #f6f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #23272f;
+      color: #fff;
+      padding: 0;
+      margin: 0;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.7em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #ff7300;
+    }
+    nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.07em;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #ff7300;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1554284126-aa88f22d8b74') no-repeat center center/cover;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px black;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(255,115,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #ff7300;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .info-row {
+      margin-bottom: 0.75rem;
+    }
+
+    .label {
+      font-weight: bold;
+      display: inline-block;
+      width: 160px;
+      color: #ff7300;
+    }
+
+    .value {
+      color: #222;
+    }
+
+    .logout-btn {
+      background: #ff7300;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover {
+      background: #e65c00;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        height: auto;
+        padding: 12px 8px;
+      }
+      .container {
+        padding: 2vw;
+      }
+      .label {
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">MATRIX</div>
+      <div>
+        <a href="index.html">Home</a>
+        <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    Welcome, Champion!
+  </section>
+
+  <div class="container">
+    <div class="card" id="profile">
+      <h3>Your Profile</h3>
+      <div class="info-row"><span class="label">Name:</span><span class="value" id="name">-</span></div>
+      <div class="info-row"><span class="label">Email:</span><span class="value" id="email">-</span></div>
+      <div class="info-row"><span class="label">Phone:</span><span class="value" id="phone">-</span></div>
+      <div class="info-row"><span class="label">Membership:</span><span class="value" id="membership">-</span></div>
+      <div class="info-row"><span class="label">Class Type:</span><span class="value" id="classType">-</span></div>
+      <div class="info-row"><span class="label">Class Time:</span><span class="value" id="classTime">-</span></div>
+      <div class="info-row"><span class="label">Personal Training:</span><span class="value" id="service">-</span></div>
+    </div>
+
+    <div class="card" id="plan">
+      <h3>Assigned Workout Plan</h3>
+      <div id="workoutContent">
+        <p>No workout plan assigned yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("currentUser");
+      window.location.href = "login.html";
+    }
+
+    async function loadUser() {
+      const user = JSON.parse(localStorage.getItem("currentUser"));
+      if (!user) return window.location.href = "login.html";
+
+      const res = await fetch(`http://localhost:5000/api/users/${user.email}`);
+      const data = await res.json();
+
+      document.getElementById("name").textContent = data.name || "-";
+      document.getElementById("email").textContent = data.email || "-";
+      document.getElementById("phone").textContent = data.phone || "-";
+      document.getElementById("membership").textContent = data.membership || "-";
+      document.getElementById("classType").textContent = data.classType || "-";
+      document.getElementById("classTime").textContent = data.classTime || "-";
+      document.getElementById("service").textContent = data.service || "No";
+
+      const planSection = document.getElementById("workoutContent");
+      if (data.workoutPlan) {
+        planSection.innerHTML = `
+          <div class="info-row"><span class="label">Title:</span><span class="value">${data.workoutPlan.title || data.workoutPlan.name}</span></div>
+          <div class="info-row"><span class="label">Description:</span><span class="value">${data.workoutPlan.description || ''}</span></div>
+          ${data.workoutPlan.exercises ? data.workoutPlan.exercises.map((ex, i) => `
+            <div class="info-row">
+              <span class="label">Exercise ${i + 1}:</span>
+              <span class="value">${ex.name} - ${ex.sets} sets × ${ex.reps} reps</span>
+            </div>
+          `).join('') : ''}
+        `;
+      } else {
+        planSection.innerHTML = `<p>No workout plan assigned yet.</p>`;
+      }
+    }
+
+    window.onload = loadUser;
+  </script>
+</body>
+</html>

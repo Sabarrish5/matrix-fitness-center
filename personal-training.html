@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Training | Matrix Gym</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .service-register-container {
+      max-width: 430px;
+      margin: 48px auto 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 6px 32px rgba(255,115,0,0.08);
+      padding: 2.5rem 2rem 2rem 2rem;
+      text-align: center;
+      border-top: 6px solid #ff7300;
+    }
+    .service-icon {
+      font-size: 3.5rem;
+      color: #ff7300;
+      margin-bottom: 0.5rem;
+    }
+    .service-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 0.5rem;
+    }
+    .service-desc {
+      color: #555;
+      font-size: 1.08rem;
+      margin-bottom: 1.5rem;
+    }
+    .service-register-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .service-register-form input {
+      padding: 0.9rem;
+      border: 1.5px solid #ddd;
+      border-radius: 7px;
+      font-size: 1rem;
+      background: #faf9f9;
+      transition: border 0.2s;
+    }
+    .service-register-form input:focus {
+      border: 1.5px solid #ff7300;
+      outline: none;
+    }
+    .service-register-form button {
+      background: #ff7300;
+      color: #fff;
+      border: none;
+      padding: 0.95rem;
+      border-radius: 7px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .service-register-form button:hover {
+      background: #e65c00;
+    }
+    .register-message {
+      margin-top: 0.7rem;
+      font-size: 1rem;
+    }
+    .service-login-link {
+      margin-top: 1.2rem;
+      font-size: 1.01rem;
+      color: #444;
+    }
+    .service-login-link a {
+      color: #ff7300;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .service-login-link a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 500px) {
+      .service-register-container {
+        max-width: 98vw;
+        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">MATRIX</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="service-register-container">
+      <div class="service-icon"><i class="fas fa-dumbbell"></i></div>
+      <div class="service-title">Personal Training</div>
+      <div class="service-desc">
+        Get one-on-one coaching with our expert trainers. Personalized plans, nutrition advice, and more!
+      </div>
+      <form class="service-register-form" id="registerForm">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="tel" id="phone" placeholder="Phone" required>
+        <input type="hidden" id="service" value="Personal Training">
+        <button type="submit">Register</button>
+        <div class="register-message" id="registerMessage"></div>
+      </form>
+      <div class="service-login-link">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+  </main>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value,
+        service: document.getElementById('service').value
+      };
+      const msg = document.getElementById('registerMessage');
+      try {
+        const res = await fetch('http://localhost:5000/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (res.ok) {
+          msg.textContent = "Registration successful! You can now login.";
+          msg.style.color = "#ff7300";
+          setTimeout(() => window.location.href = "login.html", 1200);
+        } else {
+          msg.textContent = result.message;
+          msg.style.color = "red";
+        }
+      } catch (err) {
+        msg.textContent = "Server error!";
+        msg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

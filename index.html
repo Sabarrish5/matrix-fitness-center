@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATRIX GYM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MATRIX</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="hero-overlay">
+            <h1>MATRIX FITNESS CENTER</h1>
+            <p>Join us and transform your fitness journey today!</p>
+            <button onclick="window.location.href='register.html'">Join Now</button>
+        </div>
+    </section>
+    
+    <section class="about" id="about">
+        <h2>About Us</h2>
+        <p>Matrix is dedicated to providing top-notch fitness facilities and training programs for all fitness levels.</p>
+        <img src="images/interior.jpeg" alt="Gym interior">
+    </section>
+    
+    <section class="services" id="services">
+        <h2>Our Services</h2>
+        <div class="services-container">
+            <a href="personal-training.html" class="service-box">
+                <i class="fas fa-dumbbell"></i>
+                <h3>Personal Training</h3>
+            </a>
+            <a href="cardio-workout.html" class="service-box">
+                <i class="fas fa-running"></i>
+                <h3>Cardio Workouts</h3>
+            </a>
+            <a href="strength-training.html" class="service-box">
+                <i class="fas fa-weight-hanging"></i>
+                <h3>Strength Training</h3>
+            </a>
+            <a href="yoga-meditation.html" class="service-box">
+                <i class="fas fa-spa"></i>
+                <h3>Yoga & Meditation</h3>
+            </a>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-row">
+            <img src="images/equipment.jpeg" alt="Gym equipment">
+            <img src="images/interior.jpeg" alt="Gym interior">
+            <img src="images/group training.jpeg" alt="Group training">
+        </div>
+    </section>
+    
+    <section class="contact" id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: matrixfitnesscenter@gmail.com</p>
+        <p>Phone: +91 63822 90445</p>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">MATRIX</span>
+                <p>Your fitness journey starts here.<br>© 2025 Matrix Fitness Center</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="register.html">Register</a>
+                <a href="login.html">Login</a>
+                <a href="admin-dashboard.html">Admin</a>
+            </div>
+            <div class="footer-contact">
+                <p>
+                    <strong>Contact:</strong><br>
+                    <a href="mailto:matrixfitnesscenter@gmail.com">info@matrixfitness.com</a><br>
+                    <a href="tel:+916382290445">+91 63822 90445</a>
+                </p>
+                <div class="footer-social">
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    
+    <!-- Dialogflow Messenger -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="bot"
+      agent-id="25c6305c-ffbc-42cb-bf10-5b51619bb060"
+      language-code="en"
+    ></df-messenger>
+</body>
+</html>
+

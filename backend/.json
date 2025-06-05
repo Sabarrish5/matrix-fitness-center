@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Cardio Starter Plan",
+    "type": "service",
+    "related": "Cardio Workout",
+    "description": "A beginner-friendly cardio workout plan to improve endurance.",
+    "exercises": [
+      { "name": "Jump Rope", "sets": 3, "reps": 60, "notes": "seconds" },
+      { "name": "Treadmill Run", "sets": 2, "reps": 10, "notes": "minutes" },
+      { "name": "Burpees", "sets": 3, "reps": 12, "notes": "" }
+    ]
+  },
+  {
+    "name": "Personal Training Intro",
+    "type": "service",
+    "related": "Personal Training",
+    "description": "A personalized plan with initial assessment and full-body routine.",
+    "exercises": [
+      { "name": "Assessment & Warmup", "sets": 1, "reps": 1, "notes": "Trainer assessment" },
+      { "name": "Push Ups", "sets": 3, "reps": 10, "notes": "" },
+      { "name": "Bodyweight Squats", "sets": 3, "reps": 15, "notes": "" },
+      { "name": "Cool Down Stretch", "sets": 1, "reps": 1, "notes": "5 minutes" }
+    ]
+  },
+  {
+    "name": "Strength Foundation",
+    "type": "service",
+    "related": "Strength Training",
+    "description": "Build muscle and strength with this foundational plan.",
+    "exercises": [
+      { "name": "Bench Press", "sets": 3, "reps": 8, "notes": "" },
+      { "name": "Deadlift", "sets": 3, "reps": 6, "notes": "" },
+      { "name": "Plank", "sets": 3, "reps": 45, "notes": "seconds" }
+    ]
+  },
+  {
+    "name": "Yoga & Meditation Flow",
+    "type": "service",
+    "related": "Yoga & Meditation",
+    "description": "A calming routine for flexibility, balance, and mindfulness.",
+    "exercises": [
+      { "name": "Sun Salutation", "sets": 3, "reps": 6, "notes": "" },
+      { "name": "Tree Pose", "sets": 2, "reps": 5, "notes": "Hold each leg" },
+      { "name": "Guided Meditation", "sets": 1, "reps": 10, "notes": "minutes" }
+    ]
+  },
+  {
+    "name": "Yoga Beginner Plan",
+    "type": "class",
+    "related": "Yoga",
+    "description": "Gentle yoga routine for flexibility and relaxation.",
+    "exercises": [
+      { "name": "Cat-Cow", "sets": 2, "reps": 10, "notes": "" },
+      { "name": "Child's Pose", "sets": 2, "reps": 5, "notes": "Hold 30s" }
+    ]
+  },
+  {
+    "name": "Zumba Dance Plan",
+    "type": "class",
+    "related": "Zumba",
+    "description": "Fun and energetic Zumba session.",
+    "exercises": [
+      { "name": "Basic Steps", "sets": 1, "reps": 15, "notes": "Warm up" },
+      { "name": "Dance Routine", "sets": 3, "reps": 10, "notes": "Main session" }
+    ]
+  },
+  {
+    "name": "Cardio Blast",
+    "type": "class",
+    "related": "Cardio",
+    "description": "High energy cardio workout.",
+    "exercises": [
+      { "name": "Jumping Jacks", "sets": 3, "reps": 20, "notes": "" },
+      { "name": "Burpees", "sets": 3, "reps": 10, "notes": "" }
+    ]
+  },
+  {
+    "name": "Strength Starter",
+    "type": "class",
+    "related": "Strength Training",
+    "description": "Intro to strength training.",
+    "exercises": [
+      { "name": "Push Ups", "sets": 3, "reps": 10, "notes": "" },
+      { "name": "Squats", "sets": 3, "reps": 12, "notes": "" }
+    ]
+  },
+  {
+    "name": "HIIT Express",
+    "type": "class",
+    "related": "HIIT",
+    "description": "Quick HIIT workout for fat burning.",
+    "exercises": [
+      { "name": "High Knees", "sets": 4, "reps": 30, "notes": "seconds" },
+      { "name": "Mountain Climbers", "sets": 4, "reps": 20, "notes": "" }
+    ]
+  }
+]

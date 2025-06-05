@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Matrix Fitness Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f7fb;
+            color: #222;
+        }
+        header {
+            background: #23272f;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 60px;
+        }
+        .logo {
+            font-size: 1.7em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #ff7300;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 24px;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.07em;
+            transition: color 0.2s;
+        }
+        nav ul li a:hover {
+            color: #ff7300;
+        }
+        section {
+            max-width: 1100px;
+            margin: 36px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(255,115,0,0.08);
+            padding: 32px 24px 24px 24px;
+        }
+        h2 {
+            color: #ff7300;
+            font-weight: 700;
+            margin-bottom: 22px;
+            letter-spacing: 1px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(255,115,0,0.07);
+        }
+        th, td {
+            padding: 10px 7px;
+            text-align: left;
+        }
+        th {
+            background: #ff7300;
+            color: #fff;
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background: #f8f2ea;
+        }
+        tr:hover {
+            background: #fff3e6;
+        }
+        select, button, input, textarea {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+            font-size: 1em;
+        }
+        select, input, textarea {
+            background: #fff;
+            margin-bottom: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background: #ff7300;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 6px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #e65c00;
+        }
+        .action-btn {
+            margin: 0 2px;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .modal-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ff7300;
+        }
+        .modal form button {
+            width: 100%;
+            margin-left: 0;
+        }
+        .table-actions {
+            display: flex;
+            gap: 6px;
+        }
+        /* Exercise field styles */
+        .exercise-field {
+            border: 1px solid #eee;
+            padding: 12px 10px 10px 10px;
+            margin: 14px 0;
+            border-radius: 7px;
+            background: #faf6f1;
+            position: relative;
+        }
+        .exercise-label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .remove-ex-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 0 8px;
+            cursor: pointer;
+        }
+        .add-exercise {
+            margin: 10px 0 20px 0;
+            background: #ff7300;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 15px;
+            cursor: pointer;
+        }
+        .add-exercise:hover {
+            background: #e65c00;
+        }
+        @media (max-width: 800px) {
+            section {
+                padding: 12px 4vw;
+            }
+            table, th, td {
+                font-size: 0.97em;
+            }
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                height: auto;
+                padding: 12px 8px;
+            }
+            section {
+                padding: 6vw 2vw;
+            }
+            table, th, td {
+                font-size: 0.93em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><i class="fas fa-dumbbell"></i> MATRIX</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <h2><i class="fas fa-user-cog"></i> Admin Dashboard</h2>
+
+        <!-- User Management -->
+        <div style="margin-bottom: 2rem;">
+            <button onclick="openUserModal()" style="margin-bottom: 1rem;">
+                <i class="fas fa-plus"></i> Add New User
+            </button>
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Membership</th>
+                        <th>Class Type</th>
+                        <th>Class Time</th>
+                        <th>Service</th>
+                        <th>Role</th>
+                        <th>Assigned Plan</th>
+                        <th>Assign Plan</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Workout Plan Management -->
+        <div>
+            <button onclick="openPlanModal()" style="margin-bottom: 1rem;">
+                <i class="fas fa-plus"></i> Add New Workout Plan
+            </button>
+            <table id="planTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Related</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="planTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- User Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalUserTitle">Add User</h3>
+                <span class="modal-close" onclick="closeUserModal()">&times;</span>
+            </div>
+            <form id="userForm" onsubmit="handleUserSubmit(event)">
+                <input type="text" id="userName" placeholder="Name" required>
+                <input type="email" id="userEmail" placeholder="Email" required>
+                <input type="password" id="userPassword" placeholder="Password">
+                <input type="tel" id="userPhone" placeholder="Phone" required>
+                <input type="text" id="userMembership" placeholder="Membership">
+                <input type="text" id="userClassType" placeholder="Class Type">
+                <input type="text" id="userClassTime" placeholder="Class Time">
+                <input type="text" id="userService" placeholder="Service">
+                <select id="userRole">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button type="submit" id="userFormSubmitBtn">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Workout Plan Modal -->
+    <div id="planModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPlanTitle">Add Workout Plan</h3>
+                <span class="modal-close" onclick="closePlanModal()">&times;</span>
+            </div>
+            <form id="planForm" onsubmit="handlePlanSubmit(event)">
+                <label>Plan Name</label>
+                <input type="text" id="planName" placeholder="Plan Name" required>
+                <label>Description</label>
+                <textarea id="planDesc" placeholder="Description"></textarea>
+                <label>Type</label>
+                <select id="planType" required>
+                    <option value="">Select Type</option>
+                    <option value="class">Class</option>
+                    <option value="service">Service</option>
+                </select>
+                <label>Related Class/Service</label>
+                <input type="text" id="planRelated" placeholder="Related Class/Service" required>
+                <div id="exerciseFields"></div>
+                <button type="button" class="add-exercise" onclick="addExerciseField()">
+                    <i class="fas fa-plus"></i> Add Exercise
+                </button>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- User Management ---
+        let workoutPlans = [];
+        let currentEditingUser = null;
+        let currentEditingPlan = null;
+
+        async function fetchWorkoutPlans() {
+            const res = await fetch('http://127.0.0.1:5000/api/workoutplans');
+            workoutPlans = await res.json();
+        }
+
+        async function loadUsers() {
+            await fetchWorkoutPlans();
+            const res = await fetch('http://127.0.0.1:5000/api/users');
+            const users = await res.json();
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone || ''}</td>
+                    <td>${user.membership || ''}</td>
+                    <td>${user.classType || ''}</td>
+                    <td>${user.classTime || ''}</td>
+                    <td>${user.service || ''}</td>
+                    <td>${user.role || ''}</td>
+                    <td>${user.workoutPlan ? user.workoutPlan.name : '<span style="color:#888;">None</span>'}</td>
+                    <td>
+                        <select id="plan-${user.email}">
+                            <option value="">Select Plan</option>
+                            ${workoutPlans.map(plan =>
+                                `<option value="${plan._id}">${plan.name}</option>`
+                            ).join('')}
+                        </select>
+                        <button onclick="assignPlan('${user.email}')">Assign</button>
+                    </td>
+                    <td class="table-actions">
+                        <button class="action-btn" onclick='editUser(${JSON.stringify(user)})'>
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn" onclick="deleteUser('${user.email}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openUserModal(user = null) {
+            currentEditingUser = user;
+            const modal = document.getElementById('userModal');
+            modal.style.display = 'flex';
+            const submitBtn = document.getElementById('userFormSubmitBtn');
+            if (user) {
+                document.getElementById('modalUserTitle').textContent = "Edit User";
+                document.getElementById('userName').value = user.name;
+                document.getElementById('userEmail').value = user.email;
+                document.getElementById('userEmail').disabled = true;
+                document.getElementById('userPhone').value = user.phone || '';
+                document.getElementById('userMembership').value = user.membership || '';
+                document.getElementById('userClassType').value = user.classType || '';
+                document.getElementById('userClassTime').value = user.classTime || '';
+                document.getElementById('userService').value = user.service || '';
+                document.getElementById('userRole').value = user.role || 'user';
+                document.getElementById('userPassword').value = '';
+                document.getElementById('userPassword').placeholder = 'Leave blank to keep current password';
+                submitBtn.textContent = 'Save Changes';
+            } else {
+                document.getElementById('modalUserTitle').textContent = "Add User";
+                document.getElementById('userForm').reset();
+                document.getElementById('userEmail').disabled = false;
+                document.getElementById('userPassword').placeholder = 'Password';
+                submitBtn.textContent = 'Save';
+            }
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+
+        async function handleUserSubmit(e) {
+            e.preventDefault();
+            const userData = {
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                password: document.getElementById('userPassword').value,
+                phone: document.getElementById('userPhone').value,
+                membership: document.getElementById('userMembership').value,
+                classType: document.getElementById('userClassType').value,
+                classTime: document.getElementById('userClassTime').value,
+                service: document.getElementById('userService').value,
+                role: document.getElementById('userRole').value
+            };
+
+            // If editing and password is blank, don't send it
+            if (currentEditingUser && !userData.password) {
+                delete userData.password;
+            }
+
+            const url = currentEditingUser 
+                ? `http://127.0.0.1:5000/api/users/${currentEditingUser.email}` 
+                : 'http://127.0.0.1:5000/api/users';
+            const method = currentEditingUser ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                const result = await res.json();
+                if (res.ok) {
+                    closeUserModal();
+                    loadUsers();
+                } else {
+                    alert(result.message);
+                }
+            } catch (err) {
+                alert("Error saving user");
+            }
+        }
+
+        function editUser(user) {
+            openUserModal(user);
+        }
+
+        async function deleteUser(email) {
+            if (confirm("Delete this user?")) {
+                const res = await fetch(`http://127.0.0.1:5000/api/users/${email}`, { method: 'DELETE' });
+                if (res.ok) loadUsers();
+            }
+        }
+
+        async function assignPlan(email) {
+            const select = document.getElementById('plan-' + email);
+            const planId = select.value;
+            if (!planId) {
+                alert("Select a plan first.");
+                return;
+            }
+            const res = await fetch(`http://127.0.0.1:5000/api/users/${email}/assign-workout`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ workoutPlanId: planId })
+            });
+            const result = await res.json();
+            if (res.ok) {
+                alert("Workout assigned!");
+                loadUsers();
+            } else {
+                alert(result.message || "Failed to assign plan.");
+            }
+        }
+
+        // --- Workout Plan Management with Exercises ---
+        function openPlanModal(plan = null) {
+            currentEditingPlan = plan;
+            const modal = document.getElementById('planModal');
+            modal.style.display = 'flex';
+            document.getElementById('exerciseFields').innerHTML = '';
+            if (plan) {
+                document.getElementById('modalPlanTitle').textContent = "Edit Workout Plan";
+                document.getElementById('planName').value = plan.name;
+                document.getElementById('planDesc').value = plan.description || '';
+                document.getElementById('planType').value = plan.type;
+                document.getElementById('planRelated').value = plan.related;
+                if (plan.exercises && plan.exercises.length) {
+                    plan.exercises.forEach((ex, idx) => addExerciseField(ex, idx + 1));
+                } else {
+                    addExerciseField(null, 1);
+                }
+            } else {
+                document.getElementById('modalPlanTitle').textContent = "Add Workout Plan";
+                document.getElementById('planForm').reset();
+                addExerciseField(null, 1);
+            }
+        }
+
+        function addExerciseField(exercise = {}, number = null) {
+            const div = document.createElement('div');
+            div.className = 'exercise-field';
+            const exNum = number || document.querySelectorAll('.exercise-field').length + 1;
+            div.innerHTML = `
+                <span class="exercise-label">Exercise ${exNum}</span>
+                <label>Exercise Name</label>
+                <input type="text" placeholder="Exercise Name" class="ex-name" value="${exercise.name || ''}" required>
+                <label>Sets</label>
+                <input type="number" placeholder="Sets" class="ex-sets" value="${exercise.sets || ''}">
+                <label>Reps</label>
+                <input type="number" placeholder="Reps" class="ex-reps" value="${exercise.reps || ''}">
+                <label>Notes</label>
+                <input type="text" placeholder="Notes" class="ex-notes" value="${exercise.notes || ''}">
+                <button type="button" class="remove-ex-btn" onclick="removeExerciseField(this)">&times;</button>
+            `;
+            document.getElementById('exerciseFields').appendChild(div);
+            updateExerciseLabels();
+        }
+
+        function removeExerciseField(btn) {
+            const fields = document.querySelectorAll('.exercise-field');
+            if (fields.length > 1) {
+                btn.parentElement.remove();
+                updateExerciseLabels();
+            }
+        }
+
+        function updateExerciseLabels() {
+            document.querySelectorAll('.exercise-field').forEach((field, idx) => {
+                field.querySelector('.exercise-label').textContent = `Exercise ${idx + 1}`;
+            });
+        }
+
+        async function handlePlanSubmit(e) {
+            e.preventDefault();
+            const exercises = Array.from(document.querySelectorAll('.exercise-field')).map(field => ({
+                name: field.querySelector('.ex-name').value,
+                sets: field.querySelector('.ex-sets').value,
+                reps: field.querySelector('.ex-reps').value,
+                notes: field.querySelector('.ex-notes').value
+            }));
+            const planData = {
+                name: document.getElementById('planName').value,
+                description: document.getElementById('planDesc').value,
+                type: document.getElementById('planType').value,
+                related: document.getElementById('planRelated').value,
+                exercises
+            };
+            const url = currentEditingPlan 
+                ? `http://127.0.0.1:5000/api/workoutplans/${currentEditingPlan._id}` 
+                : 'http://127.0.0.1:5000/api/workoutplans';
+            const method = currentEditingPlan ? 'PUT' : 'POST';
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(planData)
+                });
+                if (res.ok) {
+                    closePlanModal();
+                    loadWorkoutPlans();
+                    loadUsers();
+                } else {
+                    const error = await res.json();
+                    alert(error.message || "Error saving plan");
+                }
+            } catch (err) {
+                alert("Error saving plan");
+            }
+        }
+
+        async function loadWorkoutPlans() {
+            const res = await fetch('http://127.0.0.1:5000/api/workoutplans');
+            const plans = await res.json();
+            const tbody = document.getElementById('planTableBody');
+            tbody.innerHTML = plans.map(plan => `
+                <tr>
+                    <td>${plan.name}</td>
+                    <td>${plan.type}</td>
+                    <td>${plan.related}</td>
+                    <td class="table-actions">
+                        <button onclick='openPlanModal(${JSON.stringify(plan)})'><i class="fas fa-edit"></i> Edit</button>
+                        <button onclick="deletePlan('${plan._id}')"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+            workoutPlans = plans;
+        }
+
+        async function deletePlan(id) {
+            if (confirm("Delete this plan?")) {
+                const res = await fetch(`http://127.0.0.1:5000/api/workoutplans/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    loadWorkoutPlans();
+                    loadUsers();
+                }
+            }
+        }
+
+        function closePlanModal() {
+            document.getElementById('planModal').style.display = 'none';
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = "login.html";
+        }
+
+        async function loadAll() {
+            await loadUsers();
+            await loadWorkoutPlans();
+        }
+        loadAll();
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeUserModal();
+                closePlanModal();
+            }
+        }
+    </script>
+</body>
+</html>

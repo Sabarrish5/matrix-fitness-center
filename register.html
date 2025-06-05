@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | Matrix Fitness Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .toggle-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      justify-content: center;
+    }
+    .toggle-buttons button {
+      background: #ff7300;
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.3rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-buttons button.active {
+      background: #222;
+    }
+    .form-section {
+      max-width: 420px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 22px rgba(255,115,0,0.08);
+      padding: 2.5rem 2rem 2rem 2rem;
+    }
+    .form-section h2 { text-align: center; }
+    form { display: flex; flex-direction: column; gap: 1rem; }
+    input, select { padding: 0.9rem; border: 1.5px solid #ddd; border-radius: 7px; font-size: 1rem; }
+    button[type="submit"] {
+      background: #ff7300;
+      color: #fff;
+      border: none;
+      padding: 0.95rem;
+      border-radius: 7px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    button[type="submit"]:hover { background: #e65c00; }
+    #registerMessage { margin-top: 0.7rem; font-size: 1rem; }
+    @media (max-width: 500px) { .form-section { max-width: 98vw; padding: 1.5rem 0.5rem 1.5rem 0.5rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">MATRIX</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="form-section">
+    <h2>Register</h2>
+    <div class="toggle-buttons">
+      <button id="normalBtn" class="active" type="button">Normal Registration</button>
+      <button id="serviceBtn" type="button">Service Registration</button>
+    </div>
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="tel" id="phone" placeholder="Phone" required>
+      <!-- Normal Registration Fields -->
+      <div id="normalFields">
+        <select id="membership">
+          <option value="">Select Membership</option>
+          <option value="Basic">Basic</option>
+          <option value="Premium">Premium</option>
+          <option value="VIP">VIP</option>
+        </select>
+        <select id="classType">
+          <option value="">Select Class</option>
+          <option value="Yoga">Yoga</option>
+          <option value="Zumba">Zumba</option>
+          <option value="HIIT">HIIT</option>
+          <option value="Strength Training">Strength Training</option>
+          <option value="Cardio">Cardio</option>
+        </select>
+        <select id="classTime">
+          <option value="">Select Time Slot</option>
+          <option value="6:00 AM - 7:00 AM">6:00 AM - 7:00 AM</option>
+          <option value="7:00 AM - 8:00 AM">7:00 AM - 8:00 AM</option>
+          <option value="8:00 AM - 9:00 AM">8:00 AM - 9:00 AM</option>
+          <option value="5:00 PM - 6:00 PM">5:00 PM - 6:00 PM</option>
+          <option value="6:00 PM - 7:00 PM">6:00 PM - 7:00 PM</option>
+        </select>
+      </div>
+      <!-- Service Registration Fields -->
+      <div id="serviceFields" style="display:none;">
+        <select id="service">
+          <option value="">Select Service</option>
+          <option value="Personal Training">Personal Training</option>
+          <option value="Cardio Workout">Cardio Workout</option>
+          <option value="Strength Training">Strength Training</option>
+          <option value="Yoga & Meditation">Yoga & Meditation</option>
+        </select>
+      </div>
+      <button type="submit">Register</button>
+      <div id="registerMessage"></div>
+    </form>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
+  </section>
+  <script>
+    // Toggle logic
+    const normalBtn = document.getElementById('normalBtn');
+    const serviceBtn = document.getElementById('serviceBtn');
+    const normalFields = document.getElementById('normalFields');
+    const serviceFields = document.getElementById('serviceFields');
+
+    normalBtn.addEventListener('click', () => {
+      normalBtn.classList.add('active');
+      serviceBtn.classList.remove('active');
+      normalFields.style.display = '';
+      serviceFields.style.display = 'none';
+    });
+    serviceBtn.addEventListener('click', () => {
+      serviceBtn.classList.add('active');
+      normalBtn.classList.remove('active');
+      normalFields.style.display = 'none';
+      serviceFields.style.display = '';
+    });
+
+    // Form submission logic
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      // Determine registration type
+      const isNormal = normalBtn.classList.contains('active');
+      let data = { name, email, password, phone, role: 'user' };
+
+      if (isNormal) {
+        const membership = document.getElementById('membership').value;
+        const classType = document.getElementById('classType').value;
+        const classTime = document.getElementById('classTime').value;
+        if (!membership || !classType || !classTime) {
+          document.getElementById('registerMessage').textContent = "Please fill all normal registration fields.";
+          document.getElementById('registerMessage').style.color = "red";
+          return;
+        }
+        data.membership = membership;
+        data.classType = classType;
+        data.classTime = classTime;
+      } else {
+        const service = document.getElementById('service').value;
+        if (!service) {
+          document.getElementById('registerMessage').textContent = "Please select a service.";
+          document.getElementById('registerMessage').style.color = "red";
+          return;
+        }
+        data.service = service;
+      }
+
+      // Send POST request
+      try {
+        const res = await fetch('http://localhost:5000/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (res.ok) {
+          document.getElementById('registerMessage').textContent = result.message;
+          document.getElementById('registerMessage').style.color = "green";
+          setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        } else {
+          document.getElementById('registerMessage').textContent = result.message || "Registration failed.";
+          document.getElementById('registerMessage').style.color = "red";
+        }
+      } catch (err) {
+        document.getElementById('registerMessage').textContent = "Server error. Please try again.";
+        document.getElementById('registerMessage').style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

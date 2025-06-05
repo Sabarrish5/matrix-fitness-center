@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Matrix Fitness Center Admin Dashboard
 
 A full-stack web application for managing gym members, workout plans, and administrative tasks at Matrix Fitness Center.
@@ -82,3 +83,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ---
 
 **Made with ❤️ by Sabarrish and contributors**
+=======
+# matrix-fitness-center
+Full-stack admin dashboard for Matrix Fitness Center. Manage gym members, assign workout plans, and organize fitness data with a modern Node.js/Express/MongoDB backend and a responsive web dashboard.
+>>>>>>> ff39431e9d3a9c69586261bc6c33ab36a056769a
